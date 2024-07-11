@@ -28,8 +28,6 @@ Options:
   -p, --platform=PLATFORM   build for PLATFORM platform
   -v, --min-version=VERS    set platform minimum version to VERS
   -s, --sdk-version=VERS    use SDK version VERS
-  -l, --libssh2=VERS        download and build Libssh2 version VERS
-  -o, --openssl=VERS        download and build OpenSSL version VERS
   -x, --xcodeproj=PATH      get info from the project (requires TARGET)
   -t, --target=TARGET       get info from the target (requires XCODEPROJ)
       --build-only-openssl  build OpenSSL and skip Libssh2
