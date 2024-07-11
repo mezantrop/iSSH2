@@ -23,6 +23,10 @@
 # THE SOFTWARE.                                                                #
 ################################################################################
 
+#
+# "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
+#
+
 export SCRIPTNAME="iSSH2"
 
 #Functions
@@ -46,30 +50,6 @@ cleanupAll () {
   fi
 }
 
-getLibssh2Version () {
-  if type git >/dev/null 2>&1; then
-    LIBSSH_VERSION=`git ls-remote --tags https://github.com/libssh2/libssh2.git | egrep "libssh2-[0-9]+\.([0-9])+\.?[0-9]*[a-zA-Z\.\-]*?$" | cut -f 2 -d - | sort -V -r | head -n 1`
-    LIBSSH_AUTO=true
-  else
-    >&2 echo "Install git to automatically get the latest Libssh2 version or use the --libssh2 argument"
-    >&2 echo
-    >&2 echo "Try '$SCRIPTNAME --help' for more information."
-    exit 2
-  fi
-}
-
-getOpensslVersion () {
-  if type git >/dev/null 2>&1; then
-    LIBSSL_VERSION=`git ls-remote --tags git://git.openssl.org/openssl.git | egrep "[oO]pen[sS][sS][lL][-_\.][0-9]+[_\.]([0-9])+[_\.]?[0-9]*[a-zA-Z_\.]*?$" | tr '_-' '.' | cut -f 2-4 -d . | sort -V -r | head -1`
-    LIBSSL_AUTO=true
-  else
-    >&2 echo "Install git to automatically get the latest OpenSSL version or use the --openssl argument"
-    >&2 echo
-    >&2 echo "Try '$SCRIPTNAME --help' for more information."
-    exit 2
-  fi
-}
-
 getBuildSetting () {
   echo "${1}" | grep -i "^\s*${2}\s*=\s*" | cut -d= -f2 | xargs echo -n
 }
@@ -82,15 +62,13 @@ usageHelp () {
   echo
   echo "Usage: $SCRIPTNAME.sh [options]"
   echo
-  echo "This script download and build OpenSSL and Libssh2 libraries."
+  echo "Download and build bleeding edge OpenSSL and Libssh2 libraries."
   echo
   echo "Options:"
   echo "  -a, --archs=[ARCHS]       build for [ARCHS] architectures"
   echo "  -p, --platform=PLATFORM   build for PLATFORM platform"
   echo "  -v, --min-version=VERS    set platform minimum version to VERS"
   echo "  -s, --sdk-version=VERS    use SDK version VERS"
-  echo "  -l, --libssh2=VERS        download and build Libssh2 version VERS"
-  echo "  -o, --openssl=VERS        download and build OpenSSL version VERS"
   echo "  -x, --xcodeproj=PATH      get info from the project (requires TARGET)"
   echo "  -t, --target=TARGET       get info from the target (requires XCODEPROJ)"
   echo "      --build-only-openssl  build OpenSSL and skip Libssh2"
@@ -123,14 +101,12 @@ CLEAN_BUILD=true
 XCODE_PROJECT=
 TARGET_NAME=
 
-while getopts 'a:p:l:o:v:s:x:t:h-' OPTION ; do
+while getopts 'a:p:v:s:x:t:h-' OPTION ; do
   case "$OPTION" in
     a) ARCHS="$OPTARG" ;;
     p) SDK_PLATFORM="$OPTARG" ;;
     v) MIN_VERSION="$OPTARG" ;;
     s) SDK_VERSION="$OPTARG" ;;
-    l) LIBSSH_VERSION="$OPTARG" ;;
-    o) LIBSSL_VERSION="$OPTARG" ;;
     x) XCODE_PROJECT="$OPTARG" ;;
     t) TARGET_NAME="$OPTARG" ;;
     h) usageHelp ;;
@@ -140,8 +116,6 @@ while getopts 'a:p:l:o:v:s:x:t:h-' OPTION ; do
        case "$OPTION" in
          --archs) ARCHS="$OPTARG" ;;
          --platform) SDK_PLATFORM="$OPTARG" ;;
-         --openssl) LIBSSL_VERSION="$OPTARG" ;;
-         --libssh2) LIBSSH_VERSION="$OPTARG" ;;
          --sdk-version) SDK_VERSION="$OPTARG" ;;
          --min-version) MIN_VERSION="$OPTARG" ;;
          --xcodeproj) XCODE_PROJECT="$OPTARG" ;;
@@ -244,16 +218,6 @@ fi
 
 ARCHS="$(echo "$ARCHS" | tr ' ' '\n' | sort -u | tr '\n' ' ')"
 
-LIBSSH_AUTO=false
-if [[ -z "$LIBSSH_VERSION" ]]; then
-  getLibssh2Version
-fi
-
-LIBSSL_AUTO=false
-if [[ -z "$LIBSSL_VERSION" ]]; then
-  getOpensslVersion
-fi
-
 SDK_AUTO=false
 if [[ -z "$SDK_VERSION" ]]; then
    SDK_VERSION=`xcrun --sdk $SDK_PLATFORM --show-sdk-version`
@@ -268,23 +232,10 @@ export DEVELOPER=`xcode-select --print-path`
 
 export BASEPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 export TEMPPATH="$TMPDIR$SCRIPTNAME"
-export LIBSSLDIR="$TEMPPATH/openssl-$LIBSSL_VERSION"
-export LIBSSHDIR="$TEMPPATH/libssh2-$LIBSSH_VERSION"
+export LIBSSLDIR="$TEMPPATH/openssl-master"
+export LIBSSHDIR="$TEMPPATH/libssh2-master"
 
 #Env
-
-echo
-if [[ $LIBSSH_AUTO == true ]]; then
-  echo "Libssh2 version: $LIBSSH_VERSION (Automatically detected)"
-else
-  echo "Libssh2 version: $LIBSSH_VERSION"
-fi
-
-if [[ $LIBSSL_AUTO == true ]]; then
-  echo "OpenSSL version: $LIBSSL_VERSION (Automatically detected)"
-else
-  echo "OpenSSL version: $LIBSSL_VERSION"
-fi
 
 if [[ $SDK_AUTO == true ]]; then
   echo "SDK version: $SDK_VERSION (Automatically detected)"

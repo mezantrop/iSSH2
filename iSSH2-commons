@@ -23,6 +23,10 @@
 # THE SOFTWARE.                                                                #
 ################################################################################
 
+#
+# "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
+#
+
 downloadFile () {
   local url=$1
   local path=$2

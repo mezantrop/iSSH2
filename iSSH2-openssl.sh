@@ -23,6 +23,10 @@
 # THE SOFTWARE.                                                                #
 ################################################################################
 
+#
+# "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
+#
+
 XCODE_VERSION=`xcodebuild -version | grep Xcode | cut -d' ' -f2`
 
 version () {
@@ -35,9 +39,9 @@ set -e
 
 mkdir -p "$LIBSSLDIR"
 
-LIBSSL_TAR="openssl-$LIBSSL_VERSION.tar.gz"
+LIBSSL_TAR="head-openssl.tgz"
 
-downloadFile "https://www.openssl.org/source/$LIBSSL_TAR" "$LIBSSLDIR/$LIBSSL_TAR"
+downloadFile "https://github.com/openssl/openssl/archive/refs/heads/master.tar.gz" "$LIBSSLDIR/$LIBSSL_TAR"
 
 LIBSSLSRC="$LIBSSLDIR/src/"
 mkdir -p "$LIBSSLSRC"

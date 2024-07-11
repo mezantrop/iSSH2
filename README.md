@@ -1,6 +1,6 @@
-# iSSH2
+# iSSH2-head
 
-iSSH2 is a bash script for compiling Libssh2 (and OpenSSL) for iOS, macOS, watchOS and tvOS.
+iSSH2-head is a fork of [iSSH](https://github.com/Frugghi/iSSH2) bash script with modifications for compiling bleeding edge versions of Libssh2 (and OpenSSL) for iOS, macOS, watchOS and tvOS.
 
 - Libssh2: [Website](http://www.libssh2.org) | [Documentation](http://www.libssh2.org/docs.html) | [Changelog](http://www.libssh2.org/changes.html)
 - OpenSSL: [Website](http://www.openssl.org) | [Documentation](http://www.openssl.org/docs/) | [Changelog](http://www.openssl.org/news/)
@@ -10,30 +10,18 @@ iSSH2 is a bash script for compiling Libssh2 (and OpenSSL) for iOS, macOS, watch
 - Xcode
 - Xcode Command Line Tools
 
-#### Optional Requirements
-
-- git (required for automatically detection of latest version of Libssh2/OpenSSL)
-
-## Tested with
-
-- Xcode: 11.2
-- iOS SDK: 13.2
-- Libssh2: 1.9.0
-- OpenSSL: 1.1.1d
-- Architectures: arm64 arm64e x86_64
-
 ## How to use
 
 1. Download the script
-2. Run `iSSH2.sh` passing `--platform=PLATFORM --min-version=VERS` or `--xcodeproj=PATH --target=TARGET` as options (for example: `./iSSH2.sh --platform=iphoneos --min-version=8.0`)
+2. Run `iSSH2-head.sh` passing `--platform=PLATFORM --min-version=VERS` or `--xcodeproj=PATH --target=TARGET` as options (for example: `./iSSH2.sh --platform=iphoneos --min-version=8.0`)
 3. Take a cup of coffee while waiting
 
 ## Script help
 
 ```
-Usage: iSSH2.sh [options]
+Usage: iSSH2-head.sh [options]
 
-This script download and build OpenSSL and Libssh2 libraries.
+Download and build bleeding edge OpenSSL and Libssh2 libraries.
 
 Options:
   -a, --archs=[ARCHS]       build for [ARCHS] architectures
@@ -77,3 +65,5 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ```
+
+"Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024

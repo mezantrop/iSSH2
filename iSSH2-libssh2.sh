@@ -23,15 +23,19 @@
 # THE SOFTWARE.                                                                #
 ################################################################################
 
+#
+# "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
+#
+
 source "$BASEPATH/iSSH2-commons"
 
 set -e
 
 mkdir -p "$LIBSSHDIR"
 
-LIBSSH_TAR="libssh2-$LIBSSH_VERSION.tar.gz"
+LIBSSH_TAR="head-libssh2.tgz"
 
-downloadFile "http://www.libssh2.org/download/$LIBSSH_TAR" "$LIBSSHDIR/$LIBSSH_TAR"
+downloadFile "https://github.com/libssh2/libssh2/archive/refs/heads/master.tar.gz" "$LIBSSHDIR/$LIBSSH_TAR"
 
 LIBSSHSRC="$LIBSSHDIR/src/"
 mkdir -p "$LIBSSHSRC"
@@ -76,6 +80,7 @@ do
     export CFLAGS="-arch $ARCH -pipe -no-cpp-precomp -isysroot $SDKROOT -m$SDK_PLATFORM-version-min=$MIN_VERSION $EMBED_BITCODE"
     export CPPFLAGS="-arch $ARCH -pipe -no-cpp-precomp -isysroot $SDKROOT -m$SDK_PLATFORM-version-min=$MIN_VERSION"
 
+    autoreconf -fi
     if [[ $(./configure --help | grep -c -- --with-openssl) -eq 0 ]]; then
       CRYPTO_BACKEND_OPTION="--with-crypto=openssl"
     else
