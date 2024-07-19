@@ -2,6 +2,8 @@
 
 iSSH2-head is a fork of [iSSH](https://github.com/Frugghi/iSSH2) bash script with modifications for compiling bleeding edge versions of Libssh2 (and OpenSSL) for iOS, macOS, watchOS and tvOS.
 
+<a href="https://www.buymeacoffee.com/mezantrop" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
 - Libssh2: [Website](http://www.libssh2.org) | [Documentation](http://www.libssh2.org/docs.html) | [Changelog](http://www.libssh2.org/changes.html)
 - OpenSSL: [Website](http://www.openssl.org) | [Documentation](http://www.openssl.org/docs/) | [Changelog](http://www.openssl.org/news/)
 
@@ -18,7 +20,7 @@ iSSH2-head is a fork of [iSSH](https://github.com/Frugghi/iSSH2) bash script wit
 
 ## Script help
 
-```
+```sh
 Usage: iSSH2-head.sh [options]
 
 Download and build bleeding edge OpenSSL and Libssh2 libraries.
@@ -44,7 +46,7 @@ Xcodeproj and target or platform and min version must be set.
 
 Copyright (c) 2016 Tommaso Madonia. All rights reserved.
 
-```
+```sh
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
