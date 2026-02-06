@@ -27,7 +27,7 @@
 # "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
 #
 
-export SCRIPTNAME="iSSH2"
+export SCRIPTNAME="iSSH2-head"
 
 #Functions
 
@@ -112,7 +112,7 @@ CLEAN_BUILD=true
 XCODE_PROJECT=
 TARGET_NAME=
 
-[ "$1" == "" ] && usageHelp
+[ "$1" = "" ] && usageHelp
 
 while getopts 'a:p:v:s:x:t:h-' OPTION ; do
   case "$OPTION" in
