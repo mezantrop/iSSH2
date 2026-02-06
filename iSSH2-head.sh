@@ -112,6 +112,8 @@ CLEAN_BUILD=true
 XCODE_PROJECT=
 TARGET_NAME=
 
+[ "$1" == "" ] && usageHelp
+
 while getopts 'a:p:v:s:x:t:h-' OPTION ; do
   case "$OPTION" in
     a) ARCHS="$OPTARG" ;;
@@ -151,7 +153,6 @@ while getopts 'a:p:v:s:x:t:h-' OPTION ; do
   OPTIND=1
 done
 
-[ "$1" == "" ] && usageHelp
 [ "$(uname -s)" != "Darwin" ] && { echo "Error: this script must be run on macOS (Darwin)"; exit 1; }
 
 echo "Initializing..."
