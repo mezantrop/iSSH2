@@ -16,7 +16,7 @@ iSSH2-head is a fork of [iSSH](https://github.com/Frugghi/iSSH2) bash script wit
 
 1. Download the script
 2. Run `iSSH2-head.sh` passing `--platform=PLATFORM --min-version=VERS` or `--xcodeproj=PATH --target=TARGET` as options (for example: `./iSSH2.sh --platform=iphoneos --min-version=8.0`)
-3. Take a cup of coffee while waiting
+3. Grab a cup of coffee while waiting
 
 ## Script help
 
@@ -26,20 +26,35 @@ Usage: iSSH2-head.sh [options]
 Download and build bleeding edge OpenSSL and Libssh2 libraries.
 
 Options:
-  -a, --archs=[ARCHS]       build for [ARCHS] architectures
-  -p, --platform=PLATFORM   build for PLATFORM platform
+  -a, --archs=ARCHS
+    target architectures (platform-specific)
+
+  -p, --platform=PLATFORM
+    target platform: iphoneos|macosx|appletvos|watchos
+
   -v, --min-version=VERS    set platform minimum version to VERS
   -s, --sdk-version=VERS    use SDK version VERS
-  -x, --xcodeproj=PATH      get info from the project (requires TARGET)
-  -t, --target=TARGET       get info from the target (requires XCODEPROJ)
+  -x, --xcodeproj=PATH      get info from the project (requires --target)
+  -t, --target=TARGET       get info from the target (requires --xcodeproj)
       --build-only-openssl  build OpenSSL and skip Libssh2
       --no-clean            do not clean build folder
-      --no-bitcode          don't embed bitcode
+      --no-bitcode          do not embed bitcode
   -h, --help                display this help and exit
 
-Valid platforms: iphoneos, macosx, appletvos, watchos
+You must specify either:
+  --xcodeproj + --target
+or:
+  --platform + --min-version
 
-Xcodeproj and target or platform and min version must be set.
+Supported architectures by platform:
+  macosx:     x86_64 | arm64
+  iphoneos:   arm64 | arm64e | armv7 | armv7s
+  watchos:    armv7k | arm64_32
+  appletvos:  arm64
+
+Examples:
+  iSSH2-head.sh --platform=macosx --min-version=11 --archs="arm64 x86_64"
+  iSSH2-head.sh --xcodeproj path/to/MyApp.xcodeproj --target MyApp
 ```
 
 ## License

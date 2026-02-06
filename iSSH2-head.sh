@@ -59,27 +59,38 @@ version () {
 }
 
 usageHelp () {
-  echo
-  echo "Usage: $SCRIPTNAME.sh [options]"
-  echo
-  echo "Download and build bleeding edge OpenSSL and Libssh2 libraries."
-  echo
-  echo "Options:"
-  echo "  -a, --archs=[ARCHS]       build for [ARCHS] architectures"
-  echo "  -p, --platform=PLATFORM   build for PLATFORM platform"
-  echo "  -v, --min-version=VERS    set platform minimum version to VERS"
-  echo "  -s, --sdk-version=VERS    use SDK version VERS"
-  echo "  -x, --xcodeproj=PATH      get info from the project (requires TARGET)"
-  echo "  -t, --target=TARGET       get info from the target (requires XCODEPROJ)"
-  echo "      --build-only-openssl  build OpenSSL and skip Libssh2"
-  echo "      --no-clean            do not clean build folder"
-  echo "      --no-bitcode          don't embed bitcode"
-  echo "  -h, --help                display this help and exit"
-  echo
-  echo "Valid platforms: iphoneos, macosx, appletvos, watchos"
-  echo
-  echo "Xcodeproj and target or platform and min version must be set."
-  echo
+echo "Usage: $SCRIPTNAME.sh <options>"
+echo
+echo "Download and build bleeding edge OpenSSL and Libssh2 libraries for Darwin"
+echo
+echo "Options:"
+echo "  -a, --archs=ARCHS         target architectures"
+echo "  -p, --platform=PLATFORM   target platform"
+echo "  -v, --min-version=VERS    set platform minimum version to VERS"
+echo "  -s, --sdk-version=VERS    use SDK version VERS"
+echo "  -x, --xcodeproj=PATH      get info from the project (requires --target)"
+echo "  -t, --target=TARGET       get info from the target (requires --xcodeproj)"
+echo "      --build-only-openssl  build OpenSSL and skip Libssh2"
+echo "      --no-clean            do not clean build folder"
+echo "      --no-bitcode          do not embed bitcode"
+echo "  -h, --help                display this help and exit"
+echo
+echo "Specify either:"
+echo "  --xcodeproj + --target"
+echo "or:"
+echo "  --platform + --min-version"
+echo
+echo "Supported architectures by platform:"
+echo "  macosx:     x86_64 | arm64"
+echo "  iphoneos:   arm64 | arm64e | armv7 | armv7s"
+echo "  watchos:    armv7k | arm64_32"
+echo "  appletvos:  arm64"
+echo
+echo "Examples:"
+echo "  iSSH2-head.sh --platform=macosx --min-version=11 --archs=\"arm64 x86_64\""
+echo "  iSSH2-head.sh --xcodeproj path/to/MyApp.xcodeproj --target MyApp"
+echo
+
   exit 1
 }
 
@@ -139,6 +150,9 @@ while getopts 'a:p:v:s:x:t:h-' OPTION ; do
   shift $((OPTIND - 1))
   OPTIND=1
 done
+
+[ "$1" == "" ] && usageHelp
+[ "$(uname -s)" != "Darwin" ] && { echo "Error: this script must be run on macOS (Darwin)"; exit 1; }
 
 echo "Initializing..."
 
