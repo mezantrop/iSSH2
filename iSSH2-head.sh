@@ -34,7 +34,7 @@ export SCRIPTNAME="iSSH2"
 cleanupFail () {
   if $1; then
     >&2 echo "Build failed, cleaning up temporary files..."
-    rm -rf "$LIBSSLDIR/src/" "$LIBSSLDIR/tmp/" "$LIBSSHDIR/src/" "$LIBSSHDIR/tmp/"
+    rm -rf "$TEMPPATH"
   else
     >&2 echo "Build failed, temporary files location: $TEMPPATH"
   fi
@@ -156,6 +156,8 @@ done
 [ "$(uname -s)" != "Darwin" ] && { echo "Error: this script must be run on macOS (Darwin)"; exit 1; }
 
 echo "Initializing..."
+
+cleanupAll
 
 XCODE_VERSION=`xcodebuild -version | grep Xcode | cut -d' ' -f2`
 
