@@ -23,9 +23,13 @@
 # THE SOFTWARE.                                                                #
 ################################################################################
 
-#
-# "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
-#
+################################################################################
+#                                                                              #
+# Modifications for "bleeding-edge" OpenSSL and libssh2 versions               #
+# by Mikhail Zakharov, Copyright (c) 2024-2026                                 #
+# Licensed under BSD-2-Clause License                                          #
+#                                                                              #
+################################################################################
 
 source "$BASEPATH/iSSH2-commons"
 

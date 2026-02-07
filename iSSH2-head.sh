@@ -23,9 +23,13 @@
 # THE SOFTWARE.                                                                #
 ################################################################################
 
-#
-# "Bleeding edge" modifications by Mikhail Zakharov <zmey20000@yahoo.com>, 2024
-#
+################################################################################
+#                                                                              #
+# Modifications for "bleeding-edge" OpenSSL and libssh2 versions               #
+# by Mikhail Zakharov, Copyright (c) 2024-2026                                 #
+# Licensed under BSD-2-Clause License                                          #
+#                                                                              #
+################################################################################
 
 export SCRIPTNAME="iSSH2-head"
 
@@ -56,6 +60,15 @@ getBuildSetting () {
 
 version () {
   printf "%02d%02d%02d" ${1//./ }
+}
+
+buildPrerequisites () {
+  for i in "$1"; do
+    which $i > /dev/null || {
+      echo "$i required to build sources";
+      exit 1;
+    }
+  done
 }
 
 usageHelp () {
@@ -112,6 +125,8 @@ CLEAN_BUILD=true
 XCODE_PROJECT=
 TARGET_NAME=
 
+BUILD_PREREQUISITES="libtool autoconf automake"
+
 [ "$1" = "" ] && usageHelp
 
 while getopts 'a:p:v:s:x:t:h-' OPTION ; do
@@ -157,7 +172,7 @@ done
 
 echo "Initializing..."
 
-cleanupAll
+buildPrerequisites "$BUILD_PREREQUISITES"
 
 XCODE_VERSION=`xcodebuild -version | grep Xcode | cut -d' ' -f2`
 
