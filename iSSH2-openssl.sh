@@ -55,6 +55,12 @@ echo "Extracting $LIBSSL_TAR"
 tar -zxkf "$LIBSSLDIR/$LIBSSL_TAR" -C "$LIBSSLSRC" --strip-components 1 2>&-
 set -e
 
+LIBSSL_VERSION=$(awk -F '=' '
+  $1 == "MAJOR" {major=$2};
+  $1 == "MINOR" {minor=$2};
+  $1 == "PATCH" {patch=$2};
+  $1 == "PRE_RELEASE_TAG" {tag=$2};
+  END {printf("%s.%s.%s_%s", major, minor, patch, tag)}' $LIBSSLDIR/src/VERSION.dat)
 echo "Building OpenSSL $LIBSSL_VERSION, please wait..."
 
 for ARCH in $ARCHS

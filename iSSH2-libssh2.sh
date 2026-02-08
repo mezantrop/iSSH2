@@ -49,6 +49,7 @@ echo "Extracting $LIBSSH_TAR"
 tar -zxkf "$LIBSSHDIR/$LIBSSH_TAR" -C "$LIBSSHDIR/src" --strip-components 1 2>&-
 set -e
 
+LIBSSH_VERSION=$(awk '$1 == "#define" && $2 == "LIBSSH2_VERSION" {split($3, _, "\""); print(_[2])}' $LIBSSHDIR/src/include/libssh2.h)
 echo "Building Libssh2 $LIBSSH_VERSION:"
 
 for ARCH in $ARCHS
